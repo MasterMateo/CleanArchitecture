@@ -23,12 +23,10 @@ public class SubscriptionController : ControllerBase
             request.SubscriptionType.ToString(),
             request.AdminId);
 
-        var subscriptionId = await _mediator.Send(command);
+        var createSubscriptionResult = await _mediator.Send(command);
 
-        var response = new SubscriptionResponce(
-            subscriptionId, 
-            request.SubscriptionType);
-
-        return Ok(response);
+        return createSubscriptionResult.MatchFirst(
+                guid => Ok(new SubscriptionResponce(guid, request.SubscriptionType)),
+                error => Problem());
     }
 }
