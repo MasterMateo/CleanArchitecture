@@ -7,11 +7,11 @@ namespace GymManagement.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class SubscriptionController : ControllerBase
+public class SubscriptionsController : ControllerBase
 {
     private readonly ISender _mediator;
 
-    public SubscriptionController(ISender mediator)
+    public SubscriptionsController(ISender mediator)
     {
         _mediator = mediator;
     }
@@ -26,7 +26,7 @@ public class SubscriptionController : ControllerBase
         var createSubscriptionResult = await _mediator.Send(command);
 
         return createSubscriptionResult.MatchFirst(
-                guid => Ok(new SubscriptionResponce(guid, request.SubscriptionType)),
+                subscription => Ok(new SubscriptionResponce(subscription.Id, request.SubscriptionType)),
                 error => Problem());
     }
 }
