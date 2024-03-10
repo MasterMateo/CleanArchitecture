@@ -20,7 +20,8 @@ public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscripti
         // Create a subscroption
         var subscription = new Subscription
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid(),
+            SubscriptionType = request.SubscriptionType
         };
 
         // Add it to DB
