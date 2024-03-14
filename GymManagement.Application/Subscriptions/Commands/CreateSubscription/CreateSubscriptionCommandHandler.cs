@@ -3,7 +3,7 @@ using GymManagement.Application.Common.Interfaces;
 using GymManagement.Domain.Subscriptions;
 using MediatR;
 
-namespace GymManagement.Application.Subscriptions.Commands;
+namespace GymManagement.Application.Subscriptions.Commands.CreateSubscription;
 
 public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscriptionCommand, ErrorOr<Subscription>>
 {
@@ -18,11 +18,9 @@ public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscripti
     public async Task<ErrorOr<Subscription>> Handle(CreateSubscriptionCommand request, CancellationToken cancellationToken)
     {
         // Create a subscroption
-        var subscription = new Subscription
-        {
-            Id = Guid.NewGuid(),
-            SubscriptionType = request.SubscriptionType
-        };
+        var subscription = new Subscription(
+            subscriptionType: request.SubscriptionType,
+            adminId: request.AdminId);
 
         // Add it to DB
         await _subscriptionsRepository.AddSubscriptionAsync(subscription);
